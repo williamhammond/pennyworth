@@ -19,7 +19,11 @@ impl Application for Hello {
         String::from("A cool application")
     }
 
-    fn update(&mut self, _message: Self::Message, _clipboard: &mut Clipboard) -> Command<Self::Message> {
+    fn update(
+        &mut self,
+        _message: Self::Message,
+        _clipboard: &mut Clipboard,
+    ) -> Command<Self::Message> {
         Command::none()
     }
 
