@@ -36,7 +36,7 @@ struct State {
 #[derive(Debug, Clone)]
 enum Message {
     InputChanged(String),
-    Log,
+    Submit,
 }
 
 impl Application for Pennyworth {
@@ -67,8 +67,8 @@ impl Application for Pennyworth {
     ) -> Command<Self::Message> {
         match message {
             Message::InputChanged(value) => self.state.input_value = value,
-            Message::Log => {
-                println!("hi")
+            Message::Submit => {
+                std::process::exit(0);
             }
         }
         Command::none()
@@ -77,13 +77,13 @@ impl Application for Pennyworth {
     fn view(&mut self) -> Element<Self::Message> {
         TextInput::new(
             &mut self.state.input,
-            "What needs to be done?",
+            "Enter command",
             &*self.state.input_value,
             Message::InputChanged,
         )
         .padding(15)
         .size(30)
-        .on_submit(Message::Log)
+        .on_submit(Message::Submit)
         .into()
     }
 }
