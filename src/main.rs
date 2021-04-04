@@ -44,9 +44,15 @@ impl Application for Pennyworth {
 
     fn update(
         &mut self,
-        _message: Self::Message,
+        message: Self::Message,
         _clipboard: &mut Clipboard,
     ) -> Command<Self::Message> {
+        match message {
+            Message::InputChanged(value) => self.state.input_value = value,
+            Message::Log => {
+                println!("hi")
+            }
+        }
         Command::none()
     }
 
