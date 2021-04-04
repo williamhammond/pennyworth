@@ -1,18 +1,41 @@
-use iced::{executor, Application, Clipboard, Command, Element, Settings, Text};
+use iced::{executor, text_input, Application, Clipboard, Command, Element, Settings, TextInput};
 
 pub fn main() -> iced::Result {
-    Hello::run(Settings::default())
+    Pennyworth::run(Settings::default())
 }
 
-struct Hello;
+#[derive(Debug)]
+struct Pennyworth {
+    state: State,
+}
 
-impl Application for Hello {
+#[derive(Debug, Default)]
+struct State {
+    input: text_input::State,
+    input_value: String,
+}
+
+#[derive(Debug, Clone)]
+enum Message {
+    InputChanged(String),
+    Log,
+}
+
+impl Application for Pennyworth {
     type Executor = executor::Default;
-    type Message = ();
+    type Message = Message;
     type Flags = ();
 
-    fn new(_flags: ()) -> (Hello, Command<Self::Message>) {
-        (Hello, Command::none())
+    fn new(_flags: ()) -> (Pennyworth, Command<Self::Message>) {
+        (
+            Pennyworth {
+                state: State {
+                    input: Default::default(),
+                    input_value: "".to_string(),
+                },
+            },
+            Command::none(),
+        )
     }
 
     fn title(&self) -> String {
@@ -28,6 +51,15 @@ impl Application for Hello {
     }
 
     fn view(&mut self) -> Element<Self::Message> {
-        Text::new("Hello, world!").into()
+        TextInput::new(
+            &mut self.state.input,
+            "What needs to be done?",
+            &*self.state.input_value,
+            Message::InputChanged,
+        )
+        .padding(15)
+        .size(30)
+        .on_submit(Message::Log)
+        .into()
     }
 }
