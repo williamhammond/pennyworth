@@ -1,7 +1,25 @@
-use iced::{executor, text_input, Application, Clipboard, Command, Element, Settings, TextInput};
+use iced::{
+    executor, text_input, window, Application, Clipboard, Command, Element, Settings, TextInput,
+};
 
 pub fn main() -> iced::Result {
-    Pennyworth::run(Settings::default())
+    Pennyworth::run(Settings {
+        window: window::Settings {
+            size: (800, 60),
+            min_size: None,
+            max_size: None,
+            resizable: false,
+            decorations: false,
+            transparent: true,
+            always_on_top: false,
+            icon: None,
+        },
+        flags: (),
+        default_font: None,
+        default_text_size: 0,
+        exit_on_close_request: true,
+        antialiasing: false,
+    })
 }
 
 #[derive(Debug)]
@@ -39,7 +57,7 @@ impl Application for Pennyworth {
     }
 
     fn title(&self) -> String {
-        String::from("A cool application")
+        String::from("")
     }
 
     fn update(
