@@ -1,3 +1,7 @@
+mod errors;
+mod module;
+
+use crate::module::Module;
 use iced::{
     executor, text_input, window, Application, Clipboard, Command, Element, Settings, TextInput,
 };
@@ -25,12 +29,20 @@ pub fn main() -> iced::Result {
 #[derive(Debug)]
 struct Pennyworth {
     state: State,
+    modules: Vec<Box<dyn Module>>,
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
+enum Mode {
+    DetermineCommand,
+    Input,
+}
+
+#[derive(Debug)]
 struct State {
     input: text_input::State,
     input_value: String,
+    mode: Mode,
 }
 
 #[derive(Debug, Clone)]
@@ -50,7 +62,9 @@ impl Application for Pennyworth {
                 state: State {
                     input: Default::default(),
                     input_value: "".to_string(),
+                    mode: Mode::DetermineCommand,
                 },
+                modules: vec![Box::new(module::TimestampModule {})],
             },
             Command::none(),
         )
@@ -66,7 +80,30 @@ impl Application for Pennyworth {
         _clipboard: &mut Clipboard,
     ) -> Command<Self::Message> {
         match message {
-            Message::InputChanged(value) => self.state.input_value = value,
+            Message::InputChanged(value) => match self.state.mode {
+                Mode::DetermineCommand => {
+                    self.state.input_value = value;
+                    for module in self.modules.iter() {
+                        if self.state.input_value == module.name() {
+                            println!("Command {:?} matched", self.state.input_value);
+                            self.state.mode = Mode::Input;
+                        }
+                    }
+                }
+                Mode::Input => {
+                    self.state.input_value = value;
+                    let mut split = self.state.input_value.split(' ');
+
+                    let command: String = String::from(split.next().unwrap());
+                    let command_match = self.modules.iter().any(|module| module.name() == command);
+                    if !command_match {
+                        println!("Command unmatched");
+                        self.state.mode = Mode::DetermineCommand;
+                    } else {
+                        let input: String = split.skip(1).collect();
+                    }
+                }
+            },
             Message::Submit => {
                 std::process::exit(0);
             }
