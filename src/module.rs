@@ -20,6 +20,7 @@ impl Module for TimestampModule {
     }
 
     fn execute(&self, input: String) -> Result<String, ExecutionError> {
+        println!("Getting date for timestamp {:?}", input);
         let timestamp = input.parse::<i64>().unwrap();
         let dt = DateTime::<Utc>::from_utc(NaiveDateTime::from_timestamp(timestamp, 0), Utc);
 

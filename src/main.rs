@@ -100,13 +100,39 @@ impl Application for Pennyworth {
                         println!("Command unmatched");
                         self.state.mode = Mode::DetermineCommand;
                     } else {
-                        let input: String = split.skip(1).collect();
+                        let _input: String = split.skip(1).collect();
                     }
                 }
             },
-            Message::Submit => {
-                std::process::exit(0);
-            }
+            Message::Submit => match self.state.mode {
+                Mode::DetermineCommand => {
+                    std::process::exit(0);
+                }
+                Mode::Input => {
+                    let mut split = self.state.input_value.split(' ');
+                    let command_name = split.next().unwrap().to_string();
+                    let input: String = split.collect();
+
+                    let command = self
+                        .modules
+                        .iter()
+                        .find(|module| module.name() == command_name)
+                        .unwrap();
+
+                    let result = command.execute(input);
+                    match result {
+                        Ok(res) => {
+                            println!("{:?}", res);
+                            std::process::exit(0);
+                        }
+                        Err(err) => {
+                            println!("Error running command {:?}", command.name());
+                            println!("{:?}", err);
+                            std::process::exit(1);
+                        }
+                    }
+                }
+            },
         }
         Command::none()
     }
