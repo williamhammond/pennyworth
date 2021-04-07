@@ -39,7 +39,7 @@ enum Mode {
 
 #[derive(Debug)]
 struct State {
-    input: text_input::State,
+    text_input_state: text_input::State,
     input_value: String,
     mode: Mode,
 }
@@ -59,7 +59,7 @@ impl Application for Pennyworth {
         (
             Pennyworth {
                 state: State {
-                    input: Default::default(),
+                    text_input_state: text_input::State::focused(),
                     input_value: "".to_string(),
                     mode: Mode::DetermineCommand,
                 },
@@ -134,7 +134,7 @@ impl Application for Pennyworth {
 
     fn view(&mut self) -> Element<Self::Message> {
         TextInput::new(
-            &mut self.state.input,
+            &mut self.state.text_input_state,
             "Enter command",
             &*self.state.input_value,
             Message::InputChanged,
