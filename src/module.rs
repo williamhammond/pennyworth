@@ -1,4 +1,5 @@
 use chrono::{DateTime, NaiveDateTime, Utc};
+use log::info;
 use std::error;
 use std::fmt::Debug;
 
@@ -20,7 +21,7 @@ impl Module for TimestampModule {
     }
 
     fn execute(&self, input: String) -> Result<String, Box<dyn error::Error>> {
-        println!("Getting date for timestamp {:?}", input);
+        info!("Getting date for timestamp {:?}", input);
         let timestamp = input.parse::<i64>();
         match timestamp {
             Ok(timestamp) => {

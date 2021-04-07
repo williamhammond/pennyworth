@@ -7,3 +7,5 @@ edition = "2018"
 [dependencies]
 iced = "0.3"
 chrono = "0.4"
+log = "0.4"
+simple_logger = "1.11.0"

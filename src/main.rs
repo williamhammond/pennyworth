@@ -4,8 +4,14 @@ use crate::module::Module;
 use iced::{
     executor, text_input, window, Application, Clipboard, Command, Element, Settings, TextInput,
 };
+use log::{error, info, LevelFilter};
+use simple_logger::SimpleLogger;
 
 pub fn main() -> iced::Result {
+    SimpleLogger::new()
+        .with_level(LevelFilter::Info)
+        .init()
+        .unwrap();
     Pennyworth::run(Settings {
         window: window::Settings {
             size: (800, 60),
@@ -84,7 +90,7 @@ impl Application for Pennyworth {
                     self.state.input_value = value;
                     for module in self.modules.iter() {
                         if self.state.input_value == module.name() {
-                            println!("Command {:?} matched", self.state.input_value);
+                            info!("Command {:?} matched", self.state.input_value);
                             self.state.mode = Mode::Input;
                         }
                     }
@@ -98,7 +104,7 @@ impl Application for Pennyworth {
                         .iter()
                         .any(|module| module.name() == command_name);
                     if !command_match {
-                        println!("Command unmatched");
+                        info!("Command unmatched");
                         self.state.mode = Mode::DetermineCommand;
                     }
                 }
@@ -122,8 +128,7 @@ impl Application for Pennyworth {
                             self.state.input_value = result;
                         }
                         Err(err) => {
-                            println!("Error running command {:?}", command.name());
-                            println!("{:?}", err);
+                            error!("Error running command {:?}\n{:?}", command.name(), err);
                         }
                     }
                 }
