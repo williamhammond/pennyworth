@@ -118,9 +118,8 @@ impl Application for Pennyworth {
 
                     let result = command.execute(input);
                     match result {
-                        Ok(res) => {
-                            println!("{:?}", res);
-                            std::process::exit(0);
+                        Ok(result) => {
+                            self.state.input_value = result;
                         }
                         Err(err) => {
                             println!("Error running command {:?}", command.name());
