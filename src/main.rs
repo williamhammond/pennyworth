@@ -1,4 +1,3 @@
-mod errors;
 mod module;
 
 use crate::module::Module;
@@ -92,15 +91,15 @@ impl Application for Pennyworth {
                 }
                 Mode::Input => {
                     self.state.input_value = value;
-                    let mut split = self.state.input_value.split(' ');
+                    let (command_name, _) = get_command_and_input(&*self.state.input_value);
 
-                    let command: String = String::from(split.next().unwrap());
-                    let command_match = self.modules.iter().any(|module| module.name() == command);
+                    let command_match = self
+                        .modules
+                        .iter()
+                        .any(|module| module.name() == command_name);
                     if !command_match {
                         println!("Command unmatched");
                         self.state.mode = Mode::DetermineCommand;
-                    } else {
-                        let _input: String = split.skip(1).collect();
                     }
                 }
             },
@@ -109,9 +108,7 @@ impl Application for Pennyworth {
                     std::process::exit(0);
                 }
                 Mode::Input => {
-                    let mut split = self.state.input_value.split(' ');
-                    let command_name = split.next().unwrap().to_string();
-                    let input: String = split.collect();
+                    let (command_name, input) = get_command_and_input(&*self.state.input_value);
 
                     let command = self
                         .modules
@@ -128,7 +125,6 @@ impl Application for Pennyworth {
                         Err(err) => {
                             println!("Error running command {:?}", command.name());
                             println!("{:?}", err);
-                            std::process::exit(1);
                         }
                     }
                 }
@@ -149,4 +145,13 @@ impl Application for Pennyworth {
         .on_submit(Message::Submit)
         .into()
     }
+}
+
+fn get_command_and_input(input_value: &str) -> (String, String) {
+    let mut split = input_value.split(' ');
+
+    let command_name = split.next().unwrap().to_string();
+    let input: String = split.collect();
+
+    (command_name, input)
 }
