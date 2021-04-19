@@ -764,6 +764,7 @@ pub trait Renderer: text::Renderer + Sized {
     /// - the placeholder to show when the value is empty
     /// - the current [`Value`]
     /// - the current [`State`]
+    #[allow(clippy::too_many_arguments)]
     fn draw(
         &mut self,
         bounds: Rectangle,

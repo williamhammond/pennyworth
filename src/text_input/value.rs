@@ -1,3 +1,4 @@
+use std::fmt;
 use unicode_segmentation::UnicodeSegmentation;
 
 /// The value of a [`TextInput`].
@@ -7,6 +8,11 @@ use unicode_segmentation::UnicodeSegmentation;
 #[derive(Debug, Clone)]
 pub struct Value {
     graphemes: Vec<String>,
+}
+impl fmt::Display for Value {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", self.graphemes.concat())
+    }
 }
 
 impl Value {
@@ -80,11 +86,6 @@ impl Value {
         let graphemes = self.graphemes[..index.min(self.len())].to_vec();
 
         Self { graphemes }
-    }
-
-    /// Converts the [`Value`] into a `String`.
-    pub fn to_string(&self) -> String {
-        self.graphemes.concat()
     }
 
     /// Inserts a new `char` at the given grapheme `index`.
