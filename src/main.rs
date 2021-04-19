@@ -1,11 +1,13 @@
 mod module;
+mod text_input;
+use crate::text_input::State;
 
 use crate::module::Module;
-use iced::{
-    executor, text_input, window, Application, Clipboard, Command, Element, Settings, TextInput,
-};
+use iced::{executor, window, Application, Clipboard, Command, Element, Settings};
 use log::{error, info, LevelFilter};
 use simple_logger::SimpleLogger;
+
+type TextInput<'a, Message> = text_input::TextInput<'a, Message, iced_wgpu::Renderer>;
 
 pub fn main() -> iced::Result {
     SimpleLogger::new()
@@ -33,7 +35,7 @@ pub fn main() -> iced::Result {
 
 #[derive(Debug)]
 struct Pennyworth {
-    state: State,
+    state: TextState,
     modules: Vec<Box<dyn Module>>,
 }
 
@@ -44,8 +46,8 @@ enum Mode {
 }
 
 #[derive(Debug)]
-struct State {
-    text_input_state: text_input::State,
+struct TextState {
+    text_input_state: State,
     input_value: String,
     mode: Mode,
 }
@@ -64,8 +66,8 @@ impl Application for Pennyworth {
     fn new(_flags: ()) -> (Pennyworth, Command<Self::Message>) {
         (
             Pennyworth {
-                state: State {
-                    text_input_state: text_input::State::focused(),
+                state: TextState {
+                    text_input_state: State::focused(),
                     input_value: "".to_string(),
                     mode: Mode::DetermineCommand,
                 },

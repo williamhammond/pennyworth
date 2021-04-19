@@ -1794,8 +1794,14 @@ version = "0.1.0"
 dependencies = [
  "chrono",
  "iced",
+ "iced_core",
+ "iced_graphics",
+ "iced_native",
+ "iced_style",
+ "iced_wgpu",
  "log",
  "simple_logger",
+ "unicode-segmentation",
 ]
 
 [[package]]
