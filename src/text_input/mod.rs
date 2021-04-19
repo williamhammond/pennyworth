@@ -7,7 +7,7 @@ pub use cursor::Cursor;
 pub use value::Value;
 
 use editor::Editor;
-use iced_graphics::backend::{self, Backend};
+use iced_graphics::backend::Backend;
 use iced_graphics::Primitive;
 use iced_native::event::{self, Event};
 use iced_native::mouse::{self, click};
@@ -354,7 +354,7 @@ where
                 text_bounds,
                 cursor_position,
                 self.font,
-                self.size.unwrap_or(renderer.default_size()),
+                self.size.unwrap_or_else(|| renderer.default_size()),
                 &self.placeholder,
                 &value.secure(),
                 &self.state,
@@ -367,7 +367,7 @@ where
                 text_bounds,
                 cursor_position,
                 self.font,
-                self.size.unwrap_or(renderer.default_size()),
+                self.size.unwrap_or_else(|| renderer.default_size()),
                 &self.placeholder,
                 value,
                 &self.state,
@@ -392,7 +392,7 @@ where
 
     fn layout(&self, renderer: &Renderer, limits: &layout::Limits) -> layout::Node {
         let padding = self.padding as f32;
-        let text_size = self.size.unwrap_or(renderer.default_size());
+        let text_size = self.size.unwrap_or_else(|| renderer.default_size());
 
         let limits = limits
             .pad(padding)
@@ -652,19 +652,13 @@ where
                         }
                     }
                     keyboard::KeyCode::C if self.state.keyboard_modifiers.is_command_pressed() => {
-                        match self.state.cursor.selection(&self.value) {
-                            Some((start, end)) => {
-                                clipboard.write(self.value.select(start, end).to_string());
-                            }
-                            None => {}
+                        if let Some((start, end)) = self.state.cursor.selection(&self.value) {
+                            clipboard.write(self.value.select(start, end).to_string());
                         }
                     }
                     keyboard::KeyCode::X if self.state.keyboard_modifiers.is_command_pressed() => {
-                        match self.state.cursor.selection(&self.value) {
-                            Some((start, end)) => {
-                                clipboard.write(self.value.select(start, end).to_string());
-                            }
-                            None => {}
+                        if let Some((start, end)) = self.state.cursor.selection(&self.value) {
+                            clipboard.write(self.value.select(start, end).to_string());
                         }
 
                         let mut editor = Editor::new(&mut self.value, &mut self.state.cursor);
@@ -681,7 +675,7 @@ where
                                 None => {
                                     let content: String = clipboard
                                         .read()
-                                        .unwrap_or(String::new())
+                                        .unwrap_or_default()
                                         .chars()
                                         .filter(|c| !c.is_control())
                                         .collect();
@@ -716,11 +710,8 @@ where
             Event::Keyboard(keyboard::Event::KeyReleased { key_code, .. })
                 if self.state.is_focused =>
             {
-                match key_code {
-                    keyboard::KeyCode::V => {
-                        self.state.is_pasting = None;
-                    }
-                    _ => {}
+                if let keyboard::KeyCode::V = key_code {
+                    self.state.is_pasting = None;
                 }
 
                 return event::Status::Captured;
@@ -797,7 +788,7 @@ pub trait Renderer: text::Renderer + Sized {
         state: &State,
         x: f32,
     ) -> usize {
-        let size = size.unwrap_or(self.default_size());
+        let size = size.unwrap_or_else(|| self.default_size());
 
         let offset = self.offset(text_bounds, font, size, &value, &state);
 

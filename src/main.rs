@@ -104,7 +104,7 @@ impl Application for Pennyworth {
                     let command_match = self
                         .modules
                         .iter()
-                        .any(|module| module.name() == command_name);
+                        .any(|module| module.is_match(&*command_name));
                     if !command_match {
                         info!("Command unmatched");
                         self.state.mode = Mode::DetermineCommand;
@@ -121,7 +121,7 @@ impl Application for Pennyworth {
                     let command = self
                         .modules
                         .iter()
-                        .find(|module| module.name() == command_name)
+                        .find(|module| module.is_match(&*command_name))
                         .unwrap();
 
                     let result = command.execute(input);

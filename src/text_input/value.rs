@@ -57,14 +57,13 @@ impl Value {
         let next_string = &self.graphemes[index..].concat();
 
         UnicodeSegmentation::split_word_bound_indices(&next_string as &str)
-            .filter(|(_, word)| !word.trim_start().is_empty())
-            .next()
+            .find(|(_, word)| !word.trim_start().is_empty())
             .map(|(i, next_word)| {
                 index
                     + UnicodeSegmentation::graphemes(next_word, true).count()
                     + UnicodeSegmentation::graphemes(&next_string[..i] as &str, true).count()
             })
-            .unwrap_or(self.len())
+            .unwrap_or_else(|| self.len())
     }
 
     /// Returns a new [`Value`] containing the graphemes from `start` until the
