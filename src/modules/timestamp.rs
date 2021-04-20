@@ -21,3 +21,10 @@ impl Module for TimestampModule {
         }
     }
 }
+
+#[test]
+fn it_should_get_timestamp() {
+    let timestamp = TimestampModule {};
+    let actual = timestamp.execute(String::from("0")).unwrap();
+    assert_eq!(actual, "1970-01-01T00:00:00+00:00");
+}
