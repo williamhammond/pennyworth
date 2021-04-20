@@ -1,19 +1,7 @@
+use crate::modules::{Module, TimestampModule};
 use chrono::{DateTime, NaiveDateTime, Utc};
 use log::info;
 use std::error;
-use std::fmt::Debug;
-
-pub trait Module: Debug {
-    fn name(&self) -> String;
-    fn execute(&self, input: String) -> Result<String, Box<dyn error::Error>>;
-
-    fn is_match(&self, command_name: &str) -> bool {
-        command_name == self.name()
-    }
-}
-
-#[derive(Debug)]
-pub struct TimestampModule {}
 
 impl Module for TimestampModule {
     fn name(&self) -> String {

@@ -1,8 +1,9 @@
-mod module;
+mod modules;
 mod text_input;
+
 use crate::text_input::State;
 
-use crate::module::Module;
+use crate::modules::Module;
 use iced::{executor, window, Application, Clipboard, Command, Element, Settings};
 use log::{error, info, LevelFilter};
 use simple_logger::SimpleLogger;
@@ -71,7 +72,7 @@ impl Application for Pennyworth {
                     input_value: "".to_string(),
                     mode: Mode::DetermineCommand,
                 },
-                modules: vec![Box::new(module::TimestampModule {})],
+                modules: vec![Box::new(modules::TimestampModule {})],
             },
             Command::none(),
         )
