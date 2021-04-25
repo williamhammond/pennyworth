@@ -1,12 +1,3 @@
-mod editor;
-mod value;
-
-pub mod cursor;
-
-pub use cursor::Cursor;
-pub use value::Value;
-
-use editor::Editor;
 use iced_graphics::backend::Backend;
 use iced_graphics::Primitive;
 use iced_native::event::{self, Event};
@@ -17,6 +8,10 @@ use iced_native::{
 };
 use iced_style::text_input::StyleSheet;
 
+use crate::cursor;
+use crate::cursor::Cursor;
+use crate::editor::Editor;
+use crate::value::Value;
 use std::u32;
 
 impl<B> Renderer for iced_graphics::Renderer<B>

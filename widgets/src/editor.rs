@@ -1,5 +1,5 @@
-use crate::text_input::Cursor;
-use crate::text_input::Value;
+use crate::cursor::Cursor;
+use crate::value::Value;
 
 pub struct Editor<'a> {
     value: &'a mut Value,

@@ -1,7 +1,10 @@
-use crate::modules::{Module, TimestampModule};
+use crate::Module;
 use chrono::{DateTime, NaiveDateTime, Utc};
 use log::info;
 use std::error;
+
+#[derive(Debug)]
+pub struct TimestampModule {}
 
 impl Module for TimestampModule {
     fn name(&self) -> String {

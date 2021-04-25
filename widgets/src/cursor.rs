@@ -1,4 +1,4 @@
-use crate::text_input::Value;
+use crate::value::Value;
 
 /// The cursor of a text input.
 #[derive(Debug, Copy, Clone)]

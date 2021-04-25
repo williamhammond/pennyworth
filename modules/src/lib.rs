@@ -1,4 +1,5 @@
-mod timestamp;
+pub mod launcher;
+pub mod timestamp;
 
 use std::error;
 use std::fmt::Debug;
@@ -11,6 +12,3 @@ pub trait Module: Debug {
         command_name == self.name()
     }
 }
-
-#[derive(Debug)]
-pub struct TimestampModule {}

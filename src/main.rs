@@ -1,12 +1,11 @@
-mod modules;
-mod text_input;
-
-use crate::text_input::State;
-
-use crate::modules::Module;
 use iced::{executor, window, Application, Clipboard, Command, Element, Settings};
 use log::{error, info, LevelFilter};
 use simple_logger::SimpleLogger;
+
+use modules::timestamp::TimestampModule;
+use modules::Module;
+use widgets::text_input;
+use widgets::text_input::State;
 
 type TextInput<'a, Message> = text_input::TextInput<'a, Message, iced_wgpu::Renderer>;
 
@@ -72,7 +71,7 @@ impl Application for Pennyworth {
                     input_value: "".to_string(),
                     mode: Mode::DetermineCommand,
                 },
-                modules: vec![Box::new(modules::TimestampModule {})],
+                modules: vec![Box::new(TimestampModule {})],
             },
             Command::none(),
         )

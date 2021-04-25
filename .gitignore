@@ -1,2 +1,5 @@
-/target
+target/
 .idea/
+
+modules/Cargo.lock
+widgets/Cargo.lock
