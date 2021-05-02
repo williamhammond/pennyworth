@@ -709,7 +709,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "freedesktop_entry_parser"
+name = "freedesktop"
 version = "0.1.0"
 
 [[package]]
@@ -1556,7 +1556,7 @@ name = "modules"
 version = "0.1.0"
 dependencies = [
  "chrono",
- "freedesktop_entry_parser",
+ "freedesktop",
  "log",
  "rusqlite",
 ]

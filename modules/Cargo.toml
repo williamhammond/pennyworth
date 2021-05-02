@@ -9,7 +9,7 @@ edition = "2018"
 [dependencies]
 chrono = "0.4"
 log = "0.4"
-freedesktop_entry_parser = { version = "0.1.0", path = "freedesktop_entry_parser" }
+freedesktop = { version = "0.1.0", path = "freedesktop" }
 
 [dependencies.rusqlite]
 version = "0.25.1"

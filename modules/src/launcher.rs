@@ -1,6 +1,6 @@
 use crate::sql_client::SQLClient;
 use crate::Module;
-use freedesktop_entry_parser::desktop_entry::DesktopEntry;
+use freedesktop::desktop_entry::DesktopEntry;
 use std::error;
 
 #[derive(Debug)]
