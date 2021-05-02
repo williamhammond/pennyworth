@@ -1,0 +1,6 @@
+[package]
+name = "freedesktop_entry_parser"
+version = "0.1.0"
+authors = ["Bernardo Belchior <bernardo.belchior1@gmail.com>"]
+
+[dependencies]

@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=Test Invalid Entry Type
+Comment=A test invalid entry type comment
+Exec=test-app
+Type=Invalid
