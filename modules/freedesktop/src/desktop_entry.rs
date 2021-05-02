@@ -4,7 +4,7 @@ use std::fmt;
 pub enum EntryType {
     Application,
     Link,
-    Directory
+    Directory,
 }
 
 pub struct DesktopEntry {
@@ -22,9 +22,13 @@ impl fmt::Debug for DesktopEntry {
     }
 }
 
-fn print_if_some<'a>(f: &mut fmt::Formatter, attribute_name: &'static str, value: &Option<String>) -> fmt::Result {
+fn print_if_some<'a>(
+    f: &mut fmt::Formatter,
+    attribute_name: &'static str,
+    value: &Option<String>,
+) -> fmt::Result {
     match *value {
         Some(ref val) => writeln!(f, "{} {}", attribute_name, val),
-        None => Ok(())
+        None => Ok(()),
     }
 }
