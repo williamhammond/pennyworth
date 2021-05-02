@@ -28,8 +28,6 @@ mod tests {
         assert_eq!(file.entry_type, freedesktop_entry_parser::EntryType::Link);
         assert_eq!(file.name, "Test Link");
         assert_eq!(file.comment.unwrap(), "A test link comment");
-        //TODO: add URL parsing
-        //assert_eq!(file.url.unwrap(), "test-app");
     }
 
     #[test]
