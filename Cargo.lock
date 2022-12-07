@@ -709,6 +709,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "freedesktop"
+version = "0.1.0"
+
+[[package]]
 name = "freetype"
 version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1410,6 +1414,7 @@ version = "0.22.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "19cb1effde5f834799ac5e5ef0e40d45027cd74f271b1de786ba8abb30e2164d"
 dependencies = [
+ "cc",
  "pkg-config",
  "vcpkg",
 ]
@@ -1551,6 +1556,7 @@ name = "modules"
 version = "0.1.0"
 dependencies = [
  "chrono",
+ "freedesktop",
  "log",
  "rusqlite",
 ]

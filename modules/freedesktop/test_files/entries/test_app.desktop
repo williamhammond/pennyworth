@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=Test App
+Comment=A test application comment
+Exec=test-app
+Type=Application
